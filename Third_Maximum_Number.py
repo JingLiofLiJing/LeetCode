@@ -54,5 +54,4 @@ class Solution(object):
             return num1
         return num3
 
-
 print Solution().on([1,2,2,5,3,5])
