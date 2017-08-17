@@ -37,3 +37,4 @@ class Solution(object):
                 elif nums[mid] > target:
                     end = mid - 1
             return start
+        
