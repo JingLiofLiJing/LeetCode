@@ -10,7 +10,7 @@ class TreeNode(object):
 
 
 class Solution(object):
-    
+    #中序，后序，中序字典，后序字典，当前节点，左右加入，中序范围左边，中序范围右边，后序范围左边，后序范围右边
     def haha(self,inorder,postorder,ino,pos,tn,lr,ino_start,ino_end,pos_start,pos_end):
         if ino_start <= ino_end:
             value = postorder[pos_end]
@@ -33,6 +33,8 @@ class Solution(object):
         :type inorder: List[int]
         :type postorder: List[int]
         :rtype: TreeNode
+        :开始根元素在后序数组的最后一个，并找到在中序数组中的根位置，则根位置左边的为左子树方的数，右边的为右子树方的数，同时计算根位置
+        到中序左边的差，则后序数组中前差个数对应左子树方的顺序，后差个数对应右子树方的顺序，再继续递归即可得到答案。
         """
         ino = {}
         pos = {}
