@@ -35,3 +35,28 @@ class Solution(object):
                     res += 1
             tot = tot + (mx-1)*(n+1) + res
         return tot
+    
+    
+        
+    def leastInterval(self, tasks, n):
+        """
+        :type tasks: List[str]
+        :type n: int
+        :rtype: int
+        更好的方法o（n）：考虑出现频率最高的元素假设是A，假设A的出现次数为x，则要满足要求，A之间的空缺的槽为（x-1）个，并且每个槽的大小为n个
+        所以至少的位置为（x-1）*（n+1）+1，但是一般情况下最高次数的任务不可能总是只有A一个，可能有k个，则如果要满足这些最高次数的任务的调度，则
+        有序排列在每个A的槽后面即可，就算槽的个数大了或者小了都可以，则这样会产生两个结果（只考虑最大频数的任务ABC...）：
+            1 槽的数量小于 k-1，则照样排列在后面，超出的也接在后面，则照样满足要求，此时会发现中间没有空缺的槽，则其实最大长度也就是这些任务总的
+            数量，同时第频数的任务也是如此
+            2 槽的数量大于等于k-1，则直接按顺序把剩下的任务排在槽里就行了，这样的最大时间调度为（x-1）*（n+1）+k个
+            所以综合上述情况，去max（序列长度，（x-1）*（n+1）+k即可满足要求）
+        """
+        tot = 0
+        dict = {}
+        for num in tasks:
+            dict[num] = dict.get(num,0) + 1
+        vs = dict.values()
+        vs = sorted(vs, reverse=True)
+        mx = max(vs)
+        num = vs.count(mx)
+        return max(len(tasks),(n+1)*(mx-1)+num)
