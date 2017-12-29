@@ -32,4 +32,24 @@ class Solution(object):
             end += 1
         return max(maxd,end-start)
         
-   
+  
+class Solution(object):
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if s == "":
+            return 0 
+        #j表示当前形成子串的开始位置
+        j = maxd = 0
+        used = {}
+        for i in range(len(s)):
+            if s[i] in used:
+                #如果存在重复的元素，首先更新或者确定序列开始边界，如果abcddb，当读到第二个d时，j会为4，表示开头变了，但是前面的abc还保存这之前的序列
+                #在读到第二个d的时候，max方法就可以定位到目前的开始边界，可以看到b重复的边界仍然和d一样为4
+                j = max(j,used[s[i]]+1)
+            #更新最新的边界，与max方法对应
+            used[s[i]] = i
+            maxd = max(maxd,i-j+1)
+        return maxd
