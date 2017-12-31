@@ -31,3 +31,15 @@ class Solution(object):
                 start = end
                 end = len(res)
             sym = 1 - sym
+            
+            
+    def countBits(self, num):
+        """
+        :type num: int
+        :rtype: List[int]
+        和上述类似，i下标的值等于i/2下标数字的值后面加0或者1，与i下标的数字二进制最后一位相等
+        """
+        f = [0 for i in range(num+1)]
+        for i in range(1,num+1):
+            f[i] = f[i >> 1] + (i & 1);
+        return f
