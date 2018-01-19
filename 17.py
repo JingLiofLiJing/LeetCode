@@ -23,3 +23,20 @@ class Solution(object):
                     res.append(res[j]+dict[st][i])
             res = res[end:]
         return res
+    
+    
+     def letterCombinations(self, digits):
+        #利用双for循环的生成式进行组合，并且利用reduce函数进行迭代
+        if '' == digits: return []
+        kvmaps = {
+            '2': 'abc',
+            '3': 'def',
+            '4': 'ghi',
+            '5': 'jkl',
+            '6': 'mno',
+            '7': 'pqrs',
+            '8': 'tuv',
+            '9': 'wxyz'
+        }
+        #一开始acc为[‘’]，digit为第一个字符，后面得到的结果替代acc，第二个字符进行迭代
+        return reduce(lambda acc, digit: [x + y for x in acc for y in kvmaps[digit]], digits, [''])
