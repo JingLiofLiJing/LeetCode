@@ -29,3 +29,40 @@ class Solution(object):
             if dict[v] == 0:
                 del dict[v]
         return dict == {}
+
+    
+    class Solution(object):
+    def isAnagram(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        unicode情况
+        """
+        if len(s) != len(t):
+            return False
+        dict = {}
+        i = 0
+        word = ""
+        while i < len(s):
+            if s[i] == '\\':
+                dict[s[i:i+6]] = dict.get(s[i:i+6],0) + 1
+                i += 6
+            else:
+                dict[s[i]] = dict.get(s[i],0) + 1
+                i += 1
+        i = 0
+        while i < len(t):
+            if t[i] == '\\':
+                word = dict[t[i:i+6]]
+                i += 6
+            else:
+                word = t[i]
+                i += 1
+            if word not in dict:
+                return False
+            dict[word] -= 1
+            if dict[word] == 0:
+                del dict[word]
+        return dict == {}
+        
