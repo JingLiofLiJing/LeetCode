@@ -1,0 +1,55 @@
+# -*- coding: utf-8 -*- 
+'''
+A binary watch has 4 LEDs on the top which represent the hours (0-11), and the 6 LEDs on the bottom represent the minutes (0-59).
+Each LED represents a zero or one, with the least significant bit on the right.
+For example, the above binary watch reads "3:25".
+Given a non-negative integer n which represents the number of LEDs that are currently on, return all possible times the watch could represent.
+'''
+class Solution(object):
+    def trans(self,haha):
+        all = 0
+        for i,j in enumerate(haha):
+            all += j*(2**i)
+        return all
+    
+    def diedai(self,res,ind,mall,n,use):
+        res[ind] = 1
+        if sum(res) == use:
+            mall.append(self.trans(list(res)))
+            res[ind] = 0
+            return
+        for j in range(ind+1,n):
+            self.diedai(res,j,mall,n,use)
+        res[ind] = 0
+    
+    def getlsit(self,n = 4,use = 2):
+        if use == 0:
+            return [0]
+        res = [0 for i in range(n)]
+        mall = []
+        for i in range(n-use+1):
+            self.diedai(res,i,mall,n,use)
+        return mall
+        
+    def readBinaryWatch(self, num):
+        """
+        :type num: int
+        :rtype: List[str]
+        """
+#         print(self.getlsit(4,0))
+        result = []
+        hour = min(num,4)
+        for h in range(hour+1):
+            h_list = self.getlsit(4, h)
+            mmin = num - h
+            if mmin <= 6:
+                m_list = self.getlsit(6, mmin)
+            else:
+                m_list = []
+            for aa in h_list:
+                for bb in m_list:
+                    if aa < 12 and bb < 60:
+                        if bb < 10:
+                            bb = '0'+str(bb)
+                        result.append(str(aa)+':'+str(bb))
+        return result
