@@ -1,0 +1,44 @@
+'''
+Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
+Note:
+You must not modify the array (assume the array is read only).
+You must use only constant, O(1) extra space.
+Your runtime complexity should be less than O(n2).
+There is only one duplicate number in the array, but it could be repeated more than once.
+Credits:
+Special thanks to @jianchao.li.fighter for adding this problem and creating all test cases.
+'''
+class Solution(object):
+    def finddupindex(self,nums,num):
+        dupli = 0
+        ind = 1
+        for x in nums:
+            if x < num:
+                ind += 1
+            if x == num: 
+                dupli += 1
+        if dupli > 1:
+            return 0
+        elif num >= ind:
+            return 1
+        elif num < ind:
+            return -1
+    
+    def findDuplicate(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        2分法来寻找重复的数字，数字在1到n-1之间，所以折半查找数字，查找的同时统计次数，如果大于2次则找到了，
+        如果当前的ind不大于这个数字，说明前面没有重复的，否则重复的再后面，迭代查找就行了
+        """
+        start = 1
+        end = len(nums)-1
+        while start <= end:
+            mid = (start+end)/2
+            res = self.finddupindex(nums,mid)
+            if res == 0:
+                return mid
+            elif res == 1:
+                start = mid+1
+            elif res == -1:
+                end = mid - 1
