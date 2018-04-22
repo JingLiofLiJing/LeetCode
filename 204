@@ -1,0 +1,28 @@
+'''
+Description:
+Count the number of prime numbers less than a non-negative number, n.
+欧拉方法：后面的合数只能由其最小质因数来找到，所以第2重循环只需要迭代到最小的质因数处即可，因为如果计算了比最小质因数大的乘积，比如15=3*5，如果迭代到
+4的话，60可以由2*30得到，这样提前终止可以避免计算，总体复杂度位o（n），第二重循环可以在有限次内完成
+'''
+class Solution(object):
+    def countPrimes(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n < 2:
+            return 0
+        vis = [True for i in range(n)]
+        vis[0] = vis[1] = False
+        primes = []
+        for i in range(2,n):
+            if vis[i]:
+                primes.append(i)
+            for j in primes:
+                if j*i >= n:
+                    break
+                vis[j*i] = False
+                if i%j == 0:
+                    break
+        return len(primes)
+    
