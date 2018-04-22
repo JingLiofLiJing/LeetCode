@@ -1,0 +1,35 @@
+'''
+Given an array nums of n integers and an integer target, find three integers in nums such that the sum is closest to target. Return the sum of the three integers. You may assume that each input would have exactly one solution.
+Example:
+Given array nums = [-1, 2, 1, -4], and target = 1.
+The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
+Seen this question in a real interview before?  YesNo
+'''
+class Solution(object):
+    def threeSumClosest(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        o(n2)方法，固定最左边的，后面两个从头开始动，和2sum一样。
+        """
+        if len(nums) < 3:
+            return sum(nums)
+        nums.sort()
+        mclose = sum(nums[:3])
+        mlen = len(nums)
+        for i in range(mlen-2):
+            new_target = target - nums[i]
+            start = i + 1
+            end = mlen - 1
+            while start < end:
+                midtg = nums[start]+nums[end]
+                if midtg == new_target:
+                    return target
+                if abs(new_target-midtg) < abs(target - mclose):
+                    mclose = midtg + nums[i]
+                if midtg < new_target:
+                    start += 1
+                else:
+                    end -= 1
+        return mclose
