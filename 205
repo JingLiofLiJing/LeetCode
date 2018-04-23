@@ -1,0 +1,42 @@
+'''
+Given two strings s and t, determine if they are isomorphic.
+Two strings are isomorphic if the characters in s can be replaced to get t.
+All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character but a character may map to itself.
+For example,
+Given "egg", "add", return true.
+Given "foo", "bar", return false.
+Given "paper", "title", return true.
+'''
+class Solution(object):
+    def isIsomorphic(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        每个字母一个列表，第一个是该字母对应的，第二个是对应到该字母的，用来检测重复
+        """
+        if len(s) != len(t):
+            return False
+        if s == "" and t == "":
+            return True
+        trans = {}
+        for i in range(len(s)):
+            if s[i] not in trans:
+                trans[s[i]] = [None,None]
+            if trans[s[i]][0] == None:
+                trans[s[i]][0] = t[i]
+            elif trans[s[i]][0] != t[i]:
+                return False
+            if t[i] not in trans:
+                trans[t[i]] = [None, None]
+            if trans[t[i]][1] == None:
+                trans[t[i]][1] = s[i]
+            elif trans[t[i]][1] != s[i]:
+                return False
+
+        return True
+        
+ def isIsomorphic3(self, s, t):
+ #只考虑次序关系，次序代表映射
+    return len(set(zip(s, t))) == len(set(s)) == len(set(t))
+    
