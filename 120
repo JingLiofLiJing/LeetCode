@@ -1,0 +1,29 @@
+'''
+Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the row below.
+
+For example, given the following triangle
+
+[
+     [2],
+    [3,4],
+   [6,5,7],
+  [4,1,8,3]
+]
+The minimum path sum from top to bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
+'''
+class Solution(object):
+    def minimumTotal(self, triangle):
+        """
+        :type triangle: List[List[int]]
+        :rtype: int
+        """
+        if triangle == []:
+            return 0
+        sto = [[0]*len(s) for s in triangle]
+        sto[-1] = triangle[-1]
+        mlen = len(triangle)
+        for i in range(mlen-1,0,-1):
+            simlen = len(triangle[i])
+            for j in range(simlen-1):
+                sto[i-1][j] = min(sto[i][j],sto[i][j+1])+triangle[i-1][j]
+        return sto[0][0]
