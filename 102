@@ -1,0 +1,50 @@
+'''
+Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
+For example:
+Given binary tree [3,9,20,null,null,15,7],
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return its level order traversal as:
+[
+  [3],
+  [9,20],
+  [15,7]
+]
+'''
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def levelOrder(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        BFS方法，用队列来记录节点，count遍历本层节点，after记录下一层节点个数
+        """
+        mqueue,result = [],[]
+        if root:
+            count = 1
+            mqueue.append(root)
+            while mqueue != []:
+                temp = []
+                after = 0
+                while count > 0:
+                    node = mqueue.pop(0)
+                    count -= 1
+                    temp.append(node.val)
+                    if node.left:
+                        mqueue.append(node.left)
+                        after += 1
+                    if node.right:
+                        mqueue.append(node.right)
+                        after += 1
+                count = after
+                result.append(temp)
+        return result
