@@ -1,0 +1,48 @@
+'''
+The set [1,2,3,...,n] contains a total of n! unique permutations.
+By listing and labeling all of the permutations in order, we get the following sequence for n = 3:
+"123"
+"132"
+"213"
+"231"
+"312"
+"321"
+Given n and k, return the kth permutation sequence.
+Note:
+Given n will be between 1 and 9 inclusive.
+Given k will be between 1 and n! inclusive.
+Example 1:
+Input: n = 3, k = 3
+Output: "213"
+Example 2:
+Input: n = 4, k = 9
+Output: "2314"
+'''
+class Solution(object):
+    def jc(self,n):
+        if n == 0:
+            return 0
+        return reduce(lambda x,y:x*y,range(1,n+1))
+    
+    def getPermutation(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: str
+        数学方法：比如n=5，则第一位字典序是从1到5，平均每个开头要消耗（n-1）！个序号，所以每次先计算base和ind得到属于第几个数字的
+        开头（list下标从0开始，所以不用加1），取出list对应元素后删除list内用过的此数字，然后一直迭代下去，知道n=1时停止，此时tmp
+        剩余最后一个，添加到后尾即可。
+        """
+        tmp = [str(i+1) for i in range(n)]
+        res = ""
+        while n>1:
+            base = self.jc(n-1)
+            ind = (k-1)/base
+            res += tmp[ind]
+            tmp.pop(ind)
+            k -= ind*base
+            n -= 1
+        return res+"".join(tmp)
+        
+        
+        
