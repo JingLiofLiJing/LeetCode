@@ -44,3 +44,40 @@ class Solution(object):
         if a1 >=0 and a1< len(nums) and a2 >=0 and a2< len(nums) and nums[a1] == target and nums[a2] == target:
             return [a1,a2]
         return [-1,-1]         
+
+#优化解法，也是2次2分找两个边界
+class Solution(object):
+    def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        if not nums:
+            return [-1, -1]
+        
+        l, r = 0, len(nums) - 1
+        res = [-1, -1]
+        while(l < r):
+            mid = (l + r) / 2
+            if nums[mid] < target:
+                l = mid + 1
+            else:
+                r = mid
+        #判断左边界和是否有数字存在
+        if nums[l] != target:
+            return res
+        else:
+            res[0] = l
+
+        r = len(nums) - 1
+        while(l < r):
+            mid = (l + r) / 2 + 1
+            if nums[mid] > target:
+                r = mid - 1
+            else:
+                l = mid
+        #如果左边界存在右边界肯定存在
+        res[1] = r
+
+        return res
