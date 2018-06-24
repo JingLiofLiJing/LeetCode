@@ -1,0 +1,47 @@
+'''
+Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, determine if s can be segmented into a space-separated sequence of one or more dictionary words.
+
+Note:
+
+The same word in the dictionary may be reused multiple times in the segmentation.
+You may assume the dictionary does not contain duplicate words.
+Example 1:
+
+Input: s = "leetcode", wordDict = ["leet", "code"]
+Output: true
+Explanation: Return true because "leetcode" can be segmented as "leet code".
+Example 2:
+
+Input: s = "applepenapple", wordDict = ["apple", "pen"]
+Output: true
+Explanation: Return true because "applepenapple" can be segmented as "apple pen apple".
+             Note that you are allowed to reuse a dictionary word.
+Example 3:
+
+Input: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
+Output: false
+'''
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        """
+        :type s: str
+        :type wordDict: List[str]
+        :rtype: bool
+        动态规划问题，dp表示以第i个字母结尾的字符串是否被正确匹配了
+        dp[0] = True表示空串显然可以组成（什么都不选），然后从最小的词长度开始依次判断即可
+        o（nm）
+        """
+        if not wordDict:
+            return False
+        mlen = len(s)
+        dp = [False]*(mlen+1)
+        dp[0] = True
+        start = min(len(i) for i in wordDict)
+        for i in range(start,len(s)+1):
+            for word in wordDict:
+                xlen = len(word)
+                if dp[i-xlen] and s[i-xlen:i] == word:
+                    dp[i] = True
+                    break
+        return dp[-1]
+                
