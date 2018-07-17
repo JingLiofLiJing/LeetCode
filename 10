@@ -1,0 +1,41 @@
+'''
+10. Regular Expression Matching
+DescriptionHintsSubmissionsDiscussSolution
+Given an input string (s) and a pattern (p), implement regular expression matching with support for '.' and '*'.
+
+'.' Matches any single character.
+'*' Matches zero or more of the preceding element.
+The matching should cover the entire input string (not partial).
+
+Note:
+
+s could be empty and contains only lowercase letters a-z.
+p could be empty and contains only lowercase letters a-z, and characters like . or *.
+'''
+class Solution(object):
+    def isMatch(self, s, p):
+        """
+        :type s: str
+        :type p: str
+        :rtype: bool
+        """
+        mlen,nlen = len(s),len(p)
+        #多出来的第一行表示匹配空串，则遇到*判断前2位是否为真，第一列表示空表达式匹配串，除了00为T其他都为F
+        dp = [[False]*(nlen+1) for _ in range(mlen+1)]
+        dp[0][0] = True
+        for i in range(nlen):
+            if p[i] == "*" and dp[0][i-1]:
+                dp[0][i+1] = True
+        for i in range(mlen):
+            for j in range(nlen):
+              #.可以和任何匹配
+                if s[i] == p[j] or p[j] == ".":
+                    dp[i+1][j+1] = dp[i][j]
+                elif p[j] == "*":
+                    #如果*前面不一样只能当做空串处理，还需要过滤.*的情况
+                    if p[j-1] != s[i] and p[j-1]!=".":
+                        dp[i+1][j+1] = dp[i+1][j-1]
+                    #dp[i+1][j]：*匹配单个dp[i][j+1]星号匹配多个，dp[i+1][j-1]：*匹配空
+                    else:
+                        dp[i+1][j+1] = dp[i+1][j] or dp[i][j+1] or dp[i+1][j-1]
+        return dp[-1][-1]
