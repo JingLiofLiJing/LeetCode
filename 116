@@ -46,7 +46,6 @@ class Solution:
     def connect(self, root):
         if root:
             if root.left and root.right:
-                root.left.next = root.right
                 l,r = root.left,root.right
                 #处理两个子树之间的所有夹缝
                 while l and r:
