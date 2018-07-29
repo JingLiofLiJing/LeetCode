@@ -1,0 +1,38 @@
+class Solution(object):
+    def calculate(self, s):
+        """
+        :type s: str
+        :rtype: int
+        #一直提取数字和符号，遇到乘除法优先从左到右计算，然后加减法再计算
+        """
+        m1,m2,s = [],[],s+" "
+        i = 0
+        while i < len(s):
+            if s[i] == " ":
+                i += 1
+            elif s[i] == "+" or s[i] == "-" or s[i] == "*" or s[i] == "/":
+                m1.append(s[i])
+                i += 1
+            else:
+                base = 0
+                while i < len(s) and s[i].isdigit():
+                    base = base*10 + int(s[i])
+                    i += 1
+                if not m1 or m1[-1] == "+" or m1[-1] == "-":
+                    m2.append(base)
+                else:
+                    xx = m1.pop(-1)
+                    if xx == "*":
+                        m2[-1] *= base
+                    elif xx == "/":
+                        m2[-1] /= base
+        res = 0
+        if m2:
+            res = m2.pop(0)
+        for i,j in enumerate(m1):
+            if j == "+":
+                res += m2[i]
+            else:
+                res -= m2[i]
+        return res
+                
