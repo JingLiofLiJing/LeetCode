@@ -1,0 +1,23 @@
+'''
+Given an unsorted integer array, find the smallest missing positive integer.
+'''
+class Solution(object):
+    def firstMissingPositive(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        n = len(nums)
+        for i in range(n):
+            while nums[i] >= 1 and nums[i] <= n and nums[i] != nums[nums[i]-1]:
+                xx = nums[i]
+                nums[i] = nums[xx-1]
+                nums[xx-1] = xx
+        for i in range(n):
+            if nums[i] != i+1:
+                return i + 1
+        return n + 1
+        
+ 将现有的数字中0...n-1的下标分别尝试存储1...n
+ 如果下标i的数字为m不等于下标m-1的数字，则对换使得下标m-1存m，在判断
+ 然后从0开始，如果不为i+1则返回，如果正好为前n个，返回n+1
