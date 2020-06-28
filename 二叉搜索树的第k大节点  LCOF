@@ -1,0 +1,57 @@
+#include <stdint.h>
+#include <stack>
+// 反向的后续遍历即可
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int kthLargest(TreeNode* root, int k) {
+        int32_t process{0};
+        std::stack<TreeNode*> st;
+        TreeNode* temp;
+        if (root) {
+            st.push(root);
+            while(!st.empty()) {
+                TreeNode* top = st.top();
+                if (!top) {
+                    st.pop();
+                    temp = st.top();
+                    while (!st.empty() and temp -> left == top) {
+                        top = temp;
+                        st.pop();
+                        temp = st.top();
+                    }
+                    // 最顶层的转移节点需要记录中间节点的值
+                    process += 1;
+                    if (process == k) {
+                        return temp -> val;
+                    } else {
+                        st.push(temp -> left);
+                        continue;
+                    }
+                }
+                if (top -> right) {
+                    st.push(top -> right);
+                    continue;
+                } else {
+                    // 保证一串的左链条释放时中间的节点值有序被纪录过了
+                    process += 1;
+                    if (process == k) {
+                        return top -> val;
+                    }
+                    else {
+                        st.push(top -> left);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+};
