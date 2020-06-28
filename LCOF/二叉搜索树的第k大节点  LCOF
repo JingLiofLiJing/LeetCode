@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include <stack>
-// 反向的后续遍历即可
+// 反向的中续遍历即可
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
